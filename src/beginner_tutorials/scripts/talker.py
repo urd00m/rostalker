@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 import rospy
-from std.msgs.msg import String
+from std_msgs.msg import String
 
 def talker(): 
-	pub = rospy.Publiser('chatter', String, queue_size=10)
+	pub = rospy.Publisher('chatter', String, queue_size=10)
 	rospy.init_node('talker', anonymous=True)
 	rate = rospy.Rate(10) # 10hz
 	while not rospy.is_shutdown():
