@@ -13,7 +13,7 @@ Master:
 rosrun turtlesim turtlesim_node 
 
 Slave: 
-rosrun turtletest movement_talker 
+rosrun turtletest movement_talker 1    0 for straight circle
 
 The turlte should start moving in a circle on the gui 
 
