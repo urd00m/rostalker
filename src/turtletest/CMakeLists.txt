@@ -160,6 +160,8 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
  catkin_install_python(PROGRAMS
    scripts/movement_talker.py
+   scripts/turtle_client.py
+   scripts/turtle_server.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
