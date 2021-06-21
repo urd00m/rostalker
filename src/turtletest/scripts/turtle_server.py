@@ -28,7 +28,7 @@ def forward_server():
 	s1 = rospy.Service("forward", forward, handle_forward) # req - float64 dist, resp - int64 ack (1 is recieved and done, 0 error occured)
 	pub = rospy.Publisher("turtle1/cmd_vel", Twist, queue_size=5)
 	pub_ack = rospy.Publisher("acknowledge", ack, queue_size=10)
-	time.sleep(3) # 3 Seconds
+	rospy.wait_for_service("forward")
 	rospy.loginfo("node initilized, s1 ready to handle requests")
 
 
