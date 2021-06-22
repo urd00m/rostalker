@@ -18,7 +18,13 @@ def spin():
 	global lock 
 	while(lock != 1 and rospy.is_shutdown() == False):
 		time.sleep(.5) #so the cpu isn't completely burned out  
-	
+
+#Checks if process needs to be termianted 
+def terminate_check():
+	if(rospy.is_shutdown()):
+		rospy.loginfo("Process terminating...")
+		sys.exit(1)
+
 
 #Service to transfer back control to robo1
 def handle_robo1_start(req):
@@ -62,6 +68,7 @@ def data_publish():
 
 #calls robo2
 def robo1_to_robo2():
+	global lock
 	resp = robo2_startResponse(-1) #None 
 	while resp.ack == -1: #will try till sucessful 
 		try:
@@ -69,13 +76,15 @@ def robo1_to_robo2():
 			resp = robo2_key(1) #1 means start
 			if(resp.ack == 0): #0 means error 
 				raise rospy.ServiceException 
+			lock = 0 #Relocking so that we don't interfere with robo2 
 		except rospy.ServiceException as e:
+			terminate_check()
 			if(resp.ack == 0):
 				rospy.loginfo("Acknowledgement failed")
 				resp.ack = -1
 			rospy.loginfo("Error: %s\tretrying..."%e)
+			time.sleep(2) #2 second intervals
 			pass
-		time.sleep(2) #2 second intervals
 
 #robo1 starts doing work 
 def start():
@@ -97,7 +106,6 @@ def start():
 		rospy.loginfo("transfering control to robo2")
 		robo1_to_robo2()
 		rospy.loginfo("control transfered waiting to restart...")
-		lock = 0 #Relocking so that we don't interfere with robo2 
 		spin() #Simple spinlock 
 
 if __name__ == '__main__':
