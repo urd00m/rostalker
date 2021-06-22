@@ -31,7 +31,8 @@ def handle_robo1_start(req):
 	global lock
 	rospy.loginfo("Recieved robo1 control transfer, transferring...")
 	if(lock == 1):
-		rospy.loginfo("Warning! Unlocking and already unlocked robo1")
+		rospy.loginfo("Warning! Unlocking and already unlocked robo1, DEADLOCK POTENTIAL")
+		return robo1_startResponse(0) #Force it to retry/acknowledgement error
 	lock = 1
 	return robo1_startResponse(1)
 
