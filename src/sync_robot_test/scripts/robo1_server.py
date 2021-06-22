@@ -88,6 +88,7 @@ def robo1_to_robo2():
 
 #robo1 starts doing work 
 def start():
+	global lock
 	rospy.loginfo("Waiting on robo2...")
 	rospy.wait_for_service("/robo2/start")
 	rospy.loginfo("Both robo1 and robo2 are online and servers are ready to recieve") 
@@ -95,9 +96,8 @@ def start():
 		input("Press <ENTER> key to start this process")
 	except:
 		pass
-	global lock
+	spin() #simple spin lock 
 	while not rospy.is_shutdown() and lock == 1: 
-		spin()
 		rospy.loginfo("robo1 gather info")
 		#time.sleep(5) #5 seconds
 		rospy.loginfo("robo1 publishing info")
