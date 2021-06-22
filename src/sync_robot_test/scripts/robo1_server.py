@@ -1,6 +1,16 @@
 #!/usr/bin/env python
 
 
+
+##############################################################################################################
+# This is a bad model, the programming is also a mess, currently in this model there should only be one resource
+# But due to this weird ticket lock implementation there actually ends up being two resources who can also
+# acess themselves. This allows for deadlocks, unless you fix the ticket lock implementation (Fixed). R1, R2, R3 are better models for OT-2s
+# creator: Alan Wang
+##############################################################################################################
+
+
+
 #Robo 1 node starts the data publishing stops and transfers to robo 2 repeat 
 
 import rospy
