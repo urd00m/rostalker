@@ -92,5 +92,7 @@ type y whenever prompted
 8. ctrl+o <enter> ctrl+x     this saves and exists out of nano 
 8. sudo reboot 
 
+**Note: {USERNAME} is the username you wish to log into usually this will be pi**
+
 ### Running bash commands on boot 
 1. 

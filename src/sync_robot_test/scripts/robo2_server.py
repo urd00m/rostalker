@@ -53,6 +53,7 @@ def server_start():
 	rospy.init_node("robo2", anonymous=True)
 	rospy.loginfo("robo2 node created")
 
+
 #Function to publish 10 pieces of "scientific" data
 def data_publish():
 	rate = rospy.Rate(10) #10 hz
