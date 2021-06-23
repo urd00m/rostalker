@@ -35,8 +35,3 @@ sudo update-alternatives --set c++ /usr/bin/g++
 sudo apt install -y python-rosdep python-rosinstall-generator python-wstool python-rosinstall build-essential cmake
 sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/kinetic
 echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
-rosinstall_generator ros_comm ros_control joystick_drivers --rosdistro kinetic --deps --wet-only --tar > kinetic-custom_ros.rosinstall
-wstool merge -t src kinetic-custom_ros.rosinstall
-wstool update -t src
-rosdep install --from-paths src --ignore-src --rosdistro kinetic -y -r --os=debian:buster
-sudo ./src/catkin/bin/catkin_make_isolated --install -DCMAKE_BUILD_TYPE=Release --install-space /opt/ros/kinetic
