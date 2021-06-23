@@ -59,6 +59,7 @@ find_package(catkin REQUIRED COMPONENTS
    FILES
    robo1_start.srv
    robo2_start.srv
+   service_test.srv
  )
 
 ## Generate actions in the 'action' folder
@@ -163,6 +164,11 @@ include_directories(
  catkin_install_python(PROGRAMS
    scripts/robo1_server.py
    scripts/robo2_server.py
+   scripts/r1.py
+   scripts/r2.py
+   scripts/r3.py
+   test_files/service_test.py
+   test_files/service_test_client.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
  )
 
