@@ -39,18 +39,18 @@ Ctrl-c to terminate the process
 
 # Service Tests 
 
-On machine 1
-**In new terminal:**
-source ~/rostalker/devel/setup.bash
-rosrun sync_robot_test service_test.py
-**In new terminal:**
-source ~/rostalker/devel/setup.bash
-rosrun sync_robot_test service_test_client.py
+On machine 1  
+**In new terminal:**  
+source ~/rostalker/devel/setup.bash  
+rosrun sync_robot_test service_test.py  
+**In new terminal:**  
+source ~/rostalker/devel/setup.bash  
+rosrun sync_robot_test service_test_client.py  
 
-On machine 2
-**In new terminal:**
-source ~/rostalker/devel/setup.bash
-rosrun sync_robot_test service_test_client.py
+On machine 2  
+**In new terminal:**  
+source ~/rostalker/devel/setup.bash  
+rosrun sync_robot_test service_test_client.py  
 
 If everything works the server should print out 2 million and nothing different from that, this means that the mutual exclusion primitive (mutex) worked out. Removing the lock and retest will yield non-determinstic results signaling a race condition
 
