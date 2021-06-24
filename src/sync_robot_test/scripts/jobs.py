@@ -23,7 +23,7 @@ def terminate_check():
 def move_job(start, destination, num_objects):
 	status = 0
 	move_service = rospy.ServiceProxy("/rostalker_master/move", rostalker_move)
-	status = move_service(start, destination, num_objects)
+	status = move_service(start, destination, num_objects).status
 	if(status == 1):
 		rospy.logerr("/rostalker_master/move service failed")
 	return status
@@ -52,14 +52,14 @@ def decrease_job(start, end, num_objects):
 	name = "/"+str(start)+"/decrease"
 	time.sleep((num_objects/2.0)) #Removing objects from start 
 	service_call = rospy.ServiceProxy(name, decrease)
-	return service_call(num_objects)
+	return service_call(num_objects).status
 
 # In real life this would put down objects in end
 def increase_job(start, end, num_objects):
 	name = "/"+str(end)+"/increase"
 	time.sleep((num_objects/2.0)) #moving objects to end
 	service_call = rospy.ServiceProxy(name, increase)
-	return service_call(num_objects)
+	return service_call(num_objects).status
 
 # What the worker will do
 def work(id):
@@ -91,11 +91,12 @@ def _move_job(start, end, num_objects):
 		except rospy.ServiceException as e:
 			rospy.logerr("Failed to use service, error: %s", e)
 			err_count = err_count + 1
-			if(err_count == 10):
+			if(err_count == 1):
+				status = -1 # to exit out
 				rospy.logerr("Too many tries, failing")
 			else:
 				rospy.loginfo("Retrying to connect to service...")
-	if(err_count==10):
+	if(err_count==1):
 		raise rospy.ROSException #return back to the caller
 
 	status = 1
@@ -110,6 +111,7 @@ def _move_job(start, end, num_objects):
 			rospy.logerr("Failed to use service, error: %s", e)
 			err_count = err_count + 1
                         if(err_count == 10):
+				status = -1
                                 rospy.logerr("Too many tries, failing")
                         else:
                                 rospy.loginfo("Retrying to connect to service...")
@@ -123,13 +125,13 @@ def worker_job(id):
 	rospy.loginfo("Worker id: %s starting", str(id))
 	while not rospy.is_shutdown():
 		try: 
-			status = work()
+			status = work(id)
 			if(status == 1):
 				rospy.logerr("move_job error")
 				raise rospy.ROSException
 		except rospy.ROSException:
-			shutdown_service = rospy.Service("/rostalker_worker"+str(id)+"/shutdown", action_status)
-			status = shutdown_service()
+			shutdown_service = rospy.ServiceProxy("/rostalker_worker"+str(id)+"/shutdown", action_status)
+			status = shutdown_service().status
 			while(get_worker_info(id).shutdown == 1):
 				rospy.logerr("Error occured waiting on human input before continuing, please call service /rostalker_worker%s/restart", str(id))
 				time.sleep(3)

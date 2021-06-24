@@ -37,10 +37,10 @@ def handle_move(req):
 	try:
 		_move_job(start, destination, num_objects) # Abstraction
 		rospy.loginfo("%s job finished", str(start))
-		return rostalker_moveReponse(0) # All Good 
+		return rostalker_moveResponse(0) # All Good 
 	except rospy.ROSException:
 		rospy.logerr("Job call error")
-		return rostalker_moveReponse(1) # Error occured 
+		return rostalker_moveResponse(1) # Error occured 
 	finally:
 		move_lock.release() #allow others to work
 
@@ -57,7 +57,7 @@ def handle_register(req):
 		return registerResponse(worker_count)
 	except rospy.ROSException:
 		rospy.logerr("Registration failed, try again...")
-		return registerReponse(-1)
+		return registerResponse(-1)
 	finally:
 		register_lock.release()
 
