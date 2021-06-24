@@ -71,3 +71,11 @@ ROS kinetic on ubuntu 16.04 LTS is required
 4. source devel/setup.bash 
 
 **networking between the 2 different computers must also be complete**
+ 
+# Ros kinetic install on raspberry pi 4 distrubtion: buster
+1. git clone [url of github] 
+2. cd rostalker
+3. chmod +x install.sh
+4. ./install.sh
+
+type y whenever prompted
