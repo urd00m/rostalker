@@ -79,3 +79,18 @@ ROS kinetic on ubuntu 16.04 LTS is required
 4. ./install.sh
 
 type y whenever prompted
+
+# Configuration of PIs
+### Auto-login on boot 
+1. sudo raspi-config 
+2. <enter> on system options 
+3. <enter> on boot / auto-login 
+4. <enter> on console auto-login
+5. sudo nano /etc/inittab
+6. find the line 1:2345:respawn:/sbin/getty --noclear 38400 tty1
+7. replace with 1:2345:respawn:/sbin/getty --autologin {USERNAME} --noclear 38400 tty1
+8. ctrl+o <enter> ctrl+x     this saves and exists out of nano 
+8. sudo reboot 
+
+### Running bash commands on boot 
+1. 
