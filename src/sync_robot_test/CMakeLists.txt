@@ -164,9 +164,8 @@ include_directories(
  catkin_install_python(PROGRAMS
    scripts/robo1_server.py
    scripts/robo2_server.py
-   scripts/r1.py
-   scripts/r2.py
-   scripts/r3.py
+   scripts/rostalker_client.py
+   scripts/rostalker_server.py
    test_files/service_test.py
    test_files/service_test_client.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
