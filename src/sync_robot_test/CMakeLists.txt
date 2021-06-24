@@ -60,6 +60,13 @@ find_package(catkin REQUIRED COMPONENTS
    robo1_start.srv
    robo2_start.srv
    service_test.srv
+   rostalker_move.srv
+   increase.srv
+   decrease.srv
+   action_status.srv
+   register.srv
+   worker.srv
+   worker_info.srv
  )
 
 ## Generate actions in the 'action' folder
@@ -166,6 +173,7 @@ include_directories(
    scripts/robo2_server.py
    scripts/rostalker_client.py
    scripts/rostalker_server.py
+   scripts/jobs.py
    test_files/service_test.py
    test_files/service_test_client.py
    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
