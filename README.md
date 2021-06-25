@@ -73,6 +73,19 @@ Full guide here: https://roboticsbackend.com/install-ros2-on-raspberry-pi/
 5. ./commands_ros2.sh
 6. All done!
 
+### Username customization 
+1. sudo adduser tempusr 
+2. sudo usermod -aG sudo tempuser
+3. logout
+4. ssh tempuser@[ip address of pi]
+5. sudo usermod -l newusername -d /home/newusername -m oldusername
+6. sudo groupmod -n newusername oldusername
+7. sudo ln -s /home/newusername /home/oldusername
+8. sudo chfn -f "firstname lastname" newusername   [firstname lastname is your firstname and lastname]
+9. logout
+10. ssh [username]@[ip address of pi]
+11. sudo userdel -r tempuser
+
 # Install ROS1
 ROS kinetic on ubuntu 16.04 LTS is required 
 
