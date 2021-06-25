@@ -38,6 +38,16 @@ def restart(req):
 	shutdown = 0 #Restart
 	return action_statusResponse(0)
 
+def handle_increase(req):
+	global size
+	size = size + req.increase
+	return increaseResponse(0)
+
+def handle_decrease(req):
+	global size
+	size = size - req.decrease
+	return decreaseResponse(0)
+
 def node_init():
         rospy.init_node("rostalker_worker", anonymous=True)
         rospy.loginfo("rostalker_worker node started")
@@ -73,6 +83,10 @@ def init():
 	info_service = rospy.Service("/rostalker_worker"+str(id)+"/info", worker, handle_info)
 	shutdown_service = rospy.Service("/rostalker_worker"+str(id)+"/shutdown", action_status, shutdown)
 	restart_service = rospy.Service("/rostalker_worker"+str(id)+"/restart", action_status, restart)
+	decrease_service = rospy.Service("/rostalker_worker"+str(id)+"/decrease", decrease, handle_decrease)
+	increase_service = rospy.Service("/rostalker_worker"+str(id)+"/increase", increase, handle_increase)
+	rospy.wait_for_service("/rostalker_worker"+str(id)+"/decrease")
+	rospy.wait_for_service("/rostalker_worker"+str(id)+"/increase")
 	rospy.wait_for_service("/rostalker_worker"+str(id)+"/info")
 	rospy.wait_for_service("/rostalker_worker"+str(id)+"/shutdown")
 	rospy.wait_for_service("/rostalker_worker"+str(id)+"/restart")

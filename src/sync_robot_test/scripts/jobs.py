@@ -49,14 +49,14 @@ def get_worker_info(id):
 
 # In real life this would pick up objects from start
 def decrease_job(start, end, num_objects):
-	name = "/"+str(start)+"/decrease"
+	name = "/rostalker_worker"+str(start)+"/decrease"
 	time.sleep((num_objects/2.0)) #Removing objects from start 
 	service_call = rospy.ServiceProxy(name, decrease)
 	return service_call(num_objects).status
 
 # In real life this would put down objects in end
 def increase_job(start, end, num_objects):
-	name = "/"+str(end)+"/increase"
+	name = "/rostalker_worker"+str(end)+"/increase"
 	time.sleep((num_objects/2.0)) #moving objects to end
 	service_call = rospy.ServiceProxy(name, increase)
 	return service_call(num_objects).status
@@ -66,7 +66,9 @@ def work(id):
 	time.sleep(random()*5)
 	workers = get_workers()
 	# Moving to that worker
-	return move_job(id, workers[int(random()*len(workers))], int(random()*10)) #Select a random worker witha random number of item transfer 
+	dest = workers[int(random()*len(workers))]
+	rospy.loginfo("moving from %s to %s", str(id), str(dest))
+	return move_job(id, dest, int(random()*10)) #Select a random worker witha random number of item transfer 
 
 # Get robot info
 def get_info():
@@ -91,12 +93,12 @@ def _move_job(start, end, num_objects):
 		except rospy.ServiceException as e:
 			rospy.logerr("Failed to use service, error: %s", e)
 			err_count = err_count + 1
-			if(err_count == 1):
+			if(err_count == 10):
 				status = -1 # to exit out
 				rospy.logerr("Too many tries, failing")
 			else:
 				rospy.loginfo("Retrying to connect to service...")
-	if(err_count==1):
+	if(err_count==10):
 		raise rospy.ROSException #return back to the caller
 
 	status = 1
@@ -118,7 +120,15 @@ def _move_job(start, end, num_objects):
 	if(err_count==10):
 		raise rospy.ROSException #return back to the caller
 
-	rospy.loginfo("Job done moved %s objects from %s to %s", str(num_objects), str(start), str(destination))
+	worker_list = get_workers()
+	sum = 0
+	status = False
+	for item in worker_list:
+		sum = sum + get_worker_info(item).size
+	if(sum == len(worker_list)*7):
+		status = True
+	rospy.loginfo("Job done moved %s objects from %s to %s", str(num_objects), str(start), str(end))
+	rospy.loginfo("Total items: %s, Status of model: %s", str(sum), str(status))
 
 # Handles all the nasty things needed for a worker to do its job
 def worker_job(id):
