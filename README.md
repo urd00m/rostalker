@@ -61,8 +61,19 @@ rosrun turtlesim turtlesim_node
 Slave: 
 rosrun turtletest movement_talker 1    0 for straight circle
 
-# Install 
+# Install ROS2
+ROS2 - Foxy on raspberry pi 4s  
+Full guide here: https://roboticsbackend.com/install-ros2-on-raspberry-pi/
 
+### Simplified Instructions  
+1. Follow guide here: https://roboticsbackend.com/install-ubuntu-on-raspberry-pi-without-monitor/  
+2. git clone [url of github]
+3. cd rostalker
+4. chmod +x commands_ros2.sh
+5. ./commands_ros2.sh
+6. All done!
+
+# Install ROS1
 ROS kinetic on ubuntu 16.04 LTS is required 
 
 1. git clone [url of github] 
@@ -94,5 +105,3 @@ type y whenever prompted
 
 **Note: {USERNAME} is the username you wish to log into usually this will be pi**
 
-### Running bash commands on boot 
-1. 
